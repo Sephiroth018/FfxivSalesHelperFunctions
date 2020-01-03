@@ -1,6 +1,7 @@
 // Default URL for triggering event grid function in the local environment.
 // http://localhost:7071/runtime/webhooks/EventGrid?functionName={functionname}
 
+using System.Threading.Tasks;
 using Ffxiv.Services;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Azure.WebJobs;
@@ -21,7 +22,7 @@ namespace Ffxiv
         }
 
         [FunctionName("ItemAdded")]
-        public async void Run([EventGridTrigger] EventGridEvent eventGridEvent)
+        public async Task Run([EventGridTrigger] EventGridEvent eventGridEvent)
         {
             _logger.LogInformation(eventGridEvent.Data.ToString());
             var item = await _ffxivService.GetItem("28471");
