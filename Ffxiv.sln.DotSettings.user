@@ -1,0 +1,7 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\andre\.nuget\packages\polly.extensions.http\3.0.0\lib\netstandard2.0\Polly.Extensions.Http.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\andre\.nuget\packages\polly\7.2.0\lib\netstandard2.0\Polly.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\andre\.nuget\packages\microsoft.extensions.http.polly\3.1.0\lib\netstandard2.0\Microsoft.Extensions.Http.Polly.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\andre\.nuget\packages\nunit\3.12.0\lib\netstandard2.0\nunit.framework.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
