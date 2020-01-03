@@ -9,16 +9,21 @@ using Newtonsoft.Json;
 
 namespace Ffxiv
 {
-    public static class RebuildItems
+    public class RebuildItems
     {
-        [FunctionName("RebuildItems")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
-            HttpRequest req,
-            ILogger log,
-            ExecutionContext context)
+        private readonly ILogger<RebuildItems> _logger;
+
+        public RebuildItems(ILogger<RebuildItems> logger)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            _logger = logger;
+        }
+
+        [FunctionName("RebuildItems")]
+        public async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
+            HttpRequest req)
+        {
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
 

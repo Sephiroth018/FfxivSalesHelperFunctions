@@ -1,6 +1,6 @@
-﻿namespace Ffxiv
+﻿namespace Ffxiv.Common
 {
-    public class Config : IConfig
+    public class Config
     {
         public string FfxivApiKey { get; set; }
 

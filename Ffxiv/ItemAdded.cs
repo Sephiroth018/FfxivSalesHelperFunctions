@@ -2,8 +2,8 @@
 // http://localhost:7071/runtime/webhooks/EventGrid?functionName={functionname}
 
 using Ffxiv.Services;
-using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.EventGrid.Models;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.EventGrid;
 using Microsoft.Extensions.Logging;
 
@@ -11,19 +11,21 @@ namespace Ffxiv
 {
     public class ItemAdded
     {
-        private readonly FfxivService _ffxivService;
-        private readonly DatabaseService _databaseService;
+        private readonly IFfxivService _ffxivService;
+        private readonly ILogger<ItemAdded> _logger;
 
-        public ItemAdded(FfxivService ffxivService, DatabaseService databaseService)
+        public ItemAdded(IFfxivService ffxivService, ILogger<ItemAdded> logger)
         {
             _ffxivService = ffxivService;
-            _databaseService = databaseService;
+            _logger = logger;
         }
 
         [FunctionName("ItemAdded")]
-        public void Run([EventGridTrigger]EventGridEvent eventGridEvent, ILogger log)
+        public async void Run([EventGridTrigger] EventGridEvent eventGridEvent)
         {
-            log.LogInformation(eventGridEvent.Data.ToString());
+            _logger.LogInformation(eventGridEvent.Data.ToString());
+            var item = await _ffxivService.GetItem("28471");
+            _logger.LogInformation($"loaded item {item.ID} {item.Name}");
         }
     }
 }

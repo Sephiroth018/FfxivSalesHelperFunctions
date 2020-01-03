@@ -1,7 +1,12 @@
-﻿using Ffxiv.Services;
+﻿using Ffxiv;
+using Ffxiv.Common;
+using Ffxiv.Services;
+using Flurl.Http;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+[assembly: FunctionsStartup(typeof(Startup))]
 
 namespace Ffxiv
 {
@@ -11,8 +16,10 @@ namespace Ffxiv
         {
             builder.Services.AddOptions<Config>()
                    .Configure<IConfiguration>((settings, configuration) => { configuration.Bind(settings); });
-            builder.Services.AddTransient((s) => new FfxivService(s.GetService<Config>()));
-            builder.Services.AddTransient(s => new DatabaseService());
+            builder.Services.AddSingleton<IFfxivService, FfxivService>();
+            builder.Services.AddSingleton(s => new DatabaseService());
+
+            FlurlHttp.Configure(settings => settings.HttpClientFactory = new PollyHttpClientFactory());
         }
     }
 }
