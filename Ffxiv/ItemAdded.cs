@@ -13,12 +13,12 @@ namespace Ffxiv
 {
     public class ItemAdded
     {
-        private readonly IFfxivService _ffxivService;
+        private readonly ItemService _itemService;
         private readonly ILogger<ItemAdded> _logger;
 
-        public ItemAdded(IFfxivService ffxivService, ILogger<ItemAdded> logger)
+        public ItemAdded(ItemService itemService, ILogger<ItemAdded> logger)
         {
-            _ffxivService = ffxivService;
+            _itemService = itemService;
             _logger = logger;
         }
 
@@ -30,10 +30,9 @@ namespace Ffxiv
             dynamic data = eventGridEvent.Data;
             string url = data.url.ToString();
             var id = url.Split('/').Last();
-            _logger.LogInformation($"Requesting item with id {id}");
+            _logger.LogInformation($"Adding item with id {id}");
 
-            var item = await _ffxivService.GetItem(id);
-            _logger.LogInformation($"Loaded item {item.ID} {item.Name}");
+            await _itemService.AddItemToDatabase(id, _logger);
         }
     }
 }

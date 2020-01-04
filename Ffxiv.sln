@@ -5,7 +5,14 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffxiv", "Ffxiv\Ffxiv.csproj", "{7E73781D-076F-429F-B497-02ECA9DC4337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ffxiv.Tests", "Ffxiv.Tests\Ffxiv.Tests.csproj", "{FC121E3A-2C03-4E0B-B8A5-1751C3623CB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffxiv.Tests", "Ffxiv.Tests\Ffxiv.Tests.csproj", "{FC121E3A-2C03-4E0B-B8A5-1751C3623CB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6BF04B0-7C7E-4B6D-B34E-F70920A65555}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
