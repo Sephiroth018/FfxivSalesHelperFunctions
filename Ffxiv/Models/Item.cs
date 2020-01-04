@@ -19,5 +19,7 @@ namespace Ffxiv.Models
         public ItemKind ItemKind { get; set; }
 
         public ClassJobCategory ClassJobCategory { get; set; }
+
+        public bool IsEndProduct { get; set; }
     }
 }

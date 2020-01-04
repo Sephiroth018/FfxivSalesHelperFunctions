@@ -1,4 +1,5 @@
-﻿using Ffxiv;
+﻿using Azure.Storage.Blobs;
+using Ffxiv;
 using Ffxiv.Common;
 using Ffxiv.Services;
 using Flurl.Http;
@@ -19,9 +20,11 @@ namespace Ffxiv
             builder.Services.AddOptions<Config>()
                    .Configure<IConfiguration>((settings, configuration) => { configuration.Bind(settings); });
             builder.Services.AddSingleton<IFfxivService, FfxivService>();
-            builder.Services.AddTransient(s => new CosmosClient(s.GetService<IOptions<Config>>().Value.DatabaseConnection));
+            builder.Services.AddSingleton(s => new CosmosClient(s.GetService<IOptions<Config>>().Value.DatabaseConnection));
+            builder.Services.AddTransient(s => new BlobServiceClient(s.GetService<IOptions<Config>>().Value.BlobConnection));
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddTransient<ItemService>();
+            builder.Services.AddTransient<StorageService>();
 
             FlurlHttp.Configure(settings => settings.HttpClientFactory = new PollyHttpClientFactory());
         }

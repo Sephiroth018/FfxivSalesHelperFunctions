@@ -115,11 +115,12 @@ namespace Ffxiv.Services
             return new LocalizedNames { De = data.Name_de, En = data.Name_en, Fr = data.Name_fr, Ja = data.Name_ja };
         }
 
-        public async Task<Item> AddItemToDatabase(string id, ILogger logger)
+        public async Task<Item> AddItemToDatabase(string id, ILogger logger, bool isEndProduct = true)
         {
             try
             {
                 var item = await GetItemFromApi(id, logger);
+                item.IsEndProduct = isEndProduct;
 
                 List<Item> ingredients;
 
@@ -131,7 +132,7 @@ namespace Ffxiv.Services
 
                     ingredients = (await Task.WhenAll(item.Recipes
                                                           .SelectMany(r => r.Ingredients)
-                                                          .Select(async i => await AddItemToDatabase(i.ItemId.ToString(), logger)))).ToList();
+                                                          .Select(async i => await AddItemToDatabase(i.ItemId.ToString(), logger, false)))).ToList();
                 }
 
                 await _databaseService.UpsertItem(item);
@@ -145,6 +146,13 @@ namespace Ffxiv.Services
                 logger.LogError(e, e.Message);
                 throw;
             }
+        }
+
+        public async Task RebuildData(List<string> initialIds, ILogger logger)
+        {
+            await _databaseService.RemoveAll();
+
+            await Task.WhenAll(initialIds.Select(id => AddItemToDatabase(id, logger)));
         }
     }
 }

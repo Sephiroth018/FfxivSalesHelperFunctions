@@ -28,9 +28,9 @@ namespace Ffxiv.Common
             // Define our waitAndRetry policy: retry n times with an exponential backoff in case the Computer Vision API throttles us for too many requests.
             var waitAndRetryPolicy = Policy
                                      .HandleResult<HttpResponseMessage>(e => e.StatusCode == HttpStatusCode.ServiceUnavailable || e.StatusCode == HttpStatusCode.TooManyRequests)
-                                     .WaitAndRetryAsync(10, // Retry 10 times with a delay between retries before ultimately giving up
+                                     .WaitAndRetryAsync(20, // Retry 10 times with a delay between retries before ultimately giving up
                                                         //attempt => TimeSpan.FromSeconds(0.25 * Math.Pow(2, attempt)) // Back off!  2, 4, 8, 16 etc times 1/4-second
-                                                        attempt => TimeSpan.FromSeconds(1) // Wait 1 seconds between retries
+                                                        attempt => TimeSpan.FromSeconds(2) // Wait 1 seconds between retries
                                                        );
 
             // Define our first CircuitBreaker policy: Break if the action fails 4 times in a row.

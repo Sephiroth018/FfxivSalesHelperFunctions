@@ -11,5 +11,9 @@
         public string DatabaseId { get; set; }
 
         public string ContainerId { get; set; }
+
+        public string BlobConnection { get; set; }
+
+        public string BlobContainer { get; set; }
     }
 }
