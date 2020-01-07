@@ -94,7 +94,7 @@ namespace Ffxiv.Services
                     var ingredient = new Ingredient
                                      {
                                          Amount = data[$"AmountIngredient{i}"],
-                                         ItemId = data[$"ItemIngredient{i}"].ID,
+                                         Id = data[$"ItemIngredient{i}"].ID,
                                          IsCrystal = data[$"ItemIngredient{i}"].ItemUICategory.Name == "Crystal"
                                      };
 
@@ -122,17 +122,23 @@ namespace Ffxiv.Services
                 var item = await GetItemFromApi(id, logger);
                 item.IsEndProduct = isEndProduct;
 
-                List<Item> ingredients;
-
                 if (item.Recipes != null)
                 {
                     item.Recipes = (await Task.WhenAll(item.Recipes
                                                            .Select(async r => await GetRecipeFromApi(r.Id, logger))))
                         .ToList();
 
-                    ingredients = (await Task.WhenAll(item.Recipes
-                                                          .SelectMany(r => r.Ingredients)
-                                                          .Select(async i => await AddItemToDatabase(i.ItemId.ToString(), logger, false)))).ToList();
+                    await Task.WhenAll(item.Recipes.SelectMany(r => r.Ingredients)
+                                           .Select(async i =>
+                                                   {
+                                                       var resultItem = await AddItemToDatabase(i.Id.ToString(), logger, false);
+                                                       i.Name = resultItem.Name;
+                                                       i.Recipes = resultItem.Recipes;
+                                                       i.LocalizedNames = resultItem.LocalizedNames;
+                                                       i.ClassJobCategory = resultItem.ClassJobCategory;
+                                                       i.IsEndProduct = resultItem.IsEndProduct;
+                                                       i.ItemKind = resultItem.ItemKind;
+                                                   }));
                 }
 
                 await _databaseService.UpsertItem(item);
